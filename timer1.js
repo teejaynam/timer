@@ -1,18 +1,13 @@
-const times = process.argv.slice(2); //2 + are the in line args
+const times = process.argv.slice(2).map(Number).filter(x => x > -1).sort((a, b) => a - b);
+//convert strings to numbers, filter our negative numbers, then sort ascendingly
 
-let timesSorted = times.map(x => Number(x)); //convert strings to numbers
-timesSorted = timesSorted.filter((x) => x > -1); //filter out negative numbers
-timesSorted.sort(function(a, b) { //sort numbers ascendingly 
-  return a - b;
-});
-
-if (timesSorted.some(isNaN)) { //if at least one element is NaN, exit program
+if (times.some(isNaN)) { //if at least one element is NaN, exit program
   console.log("Non numerical value detected, ending program");
 } else {
-  for (let i = 0; i < timesSorted.length; i++) { //loop through times array and play alarm or message through stdout
+  for (let i = 0; i < times.length; i++) { //loop through times array and play alarm or message through stdout
     setTimeout(() => {
-      process.stdout.write(`beep at ${timesSorted[i]} seconds `);
+      process.stdout.write(`beep at ${times[i]} seconds `);
       process.stdout.write('\x07');
-    }, (timesSorted[i] * 1000));
+    }, (times[i] * 1000));
   }
 }
